@@ -1,4 +1,4 @@
-@extends('layouts.main');
+@extends('layouts.main')
 
 @section('titile', '店舗一覧')
 
