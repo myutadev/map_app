@@ -11,7 +11,11 @@
     const map = L.map('map');
 
     // 中心座標とzoomを指定, editページのエラー時に修正後の場所を表示するためにoldを使う
-    map.setView([{{ old('latitude', $latitude) }}, {{ old('longitude', $longitude) }}], {{ $zoom }});
+    //?? $latitude ?? longitudeはcreateページのエラー対応。これがないとマップをクリックする前にエラーが起きた際にマップが表示されなくなる。
+    map.setView([{{ old('latitude', $latitude) ?? $latitude }}, {{ old('longitude', $longitude) ?? $longitude }}],
+        {{ $zoom }});
+    // map.setView([{{ $latitude }}, {{ $longitude }}], {{ $zoom }});
+
     // 表示するタイルを指定
     L.tileLayer('http://tile.openstreetmap.jp/{z}/{x}/{y}.png').addTo(map);
 </script>
