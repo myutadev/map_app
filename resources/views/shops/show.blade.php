@@ -1,4 +1,4 @@
-@extends('layouts.main');
+@extends('layouts.main')
 
 @section('titile', '店舗情報')
 
@@ -19,6 +19,9 @@
         </div>
     </form>
 
+    <div id="map" style="height: 50vh"></div>
+
+
     <div>
         <button type="button" onclick="location.href='{{ route('shops.index') }}'">一覧へ戻る</button>
         <button type="button" onclick="location.href='{{ route('shops.edit', $shop) }}'">編集する</button>
@@ -29,4 +32,17 @@
         </form>
     </div>
 
+@endsection
+
+@section('script')
+    @include('partial.map')
+    <script>
+        @if (!empty($shop))
+            L.marker([{{ $shop->latitude }}, {{ $shop->longitude }}])
+                .bindPopup("{{ $shop->name }}", {
+                    closeButton: false
+                })
+                .addTo(map);
+        @endif
+    </script>
 @endsection

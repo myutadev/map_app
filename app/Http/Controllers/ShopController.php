@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
-use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
@@ -13,7 +13,12 @@ class ShopController extends Controller
     public function index()
     {
         $shops = Shop::all();
-        return view('shops.index', compact('shops'));
+
+        $latitude = $shops->average('latitude');
+        $longitude = $shops->average('longitude');
+        $zoom = 5;
+
+        return view('shops.index', compact('shops', 'latitude', 'longitude', 'zoom'));
     }
 
     /**
@@ -21,13 +26,17 @@ class ShopController extends Controller
      */
     public function create()
     {
-        return view('shops.create');
+        $latitude = 35.658584;
+        $longitude = 139.7454316;
+        $zoom = 10;
+
+        return view('shops.create', compact('latitude', 'longitude', 'zoom'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ShopRequest $request)
     {
         $shop = new Shop();
         $shop->name = $request->name;
@@ -46,7 +55,12 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        return view('shops.show', compact('shop'));
+        $latitude = $shop->latitude;
+        $longitude = $shop->longitude;
+        $zoom = 12;
+
+
+        return view('shops.show', compact('shop', 'latitude', 'longitude', 'zoom'));
     }
 
     /**
@@ -54,14 +68,17 @@ class ShopController extends Controller
      */
     public function edit(Shop $shop)
     {
+        $latitude = $shop->latitude;
+        $longitude = $shop->longitude;
+        $zoom = 12;
 
-        return view('shops.edit', compact('shop'));
+        return view('shops.edit', compact('shop', 'latitude', 'longitude', 'zoom'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shop $shop)
+    public function update(ShopRequest $request, Shop $shop)
     {
         //
         $shop->name = $request->name;
@@ -69,7 +86,6 @@ class ShopController extends Controller
         $shop->address = $request->address;
         $shop->latitude = $request->latitude;
         $shop->longitude = $request->longitude;
-
         $shop->save();
 
         return redirect()->route('shops.index');
