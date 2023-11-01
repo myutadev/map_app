@@ -14,7 +14,6 @@
     //?? $latitude ?? longitudeはcreateページのエラー対応。これがないとマップをクリックする前にエラーが起きた際にマップが表示されなくなる。
     map.setView([{{ old('latitude', $latitude) ?? $latitude }}, {{ old('longitude', $longitude) ?? $longitude }}],
         {{ $zoom }});
-    // map.setView([{{ $latitude }}, {{ $longitude }}], {{ $zoom }});
 
     // 表示するタイルを指定
     L.tileLayer('http://tile.openstreetmap.jp/{z}/{x}/{y}.png').addTo(map);
