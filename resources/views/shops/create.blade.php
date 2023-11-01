@@ -6,33 +6,14 @@
     <h1>店舗情報登録</h1>
     @if ($errors->any())
         <div class="error">
-            @if ($errors->has('latitude'))
-                {{-- {{ dd($errors->toArray()) }} --}}
-                <p>
-                    <b>{{ count($errors) - 1 }}件のエラーがあります。</b>
-                </p>
-                <ul>
-                    @if ($errors->has('name'))
-                        <li>{{ $errors->first('name') }}</li>
-                    @endif
-                    @if ($errors->has('description'))
-                        <li>{{ $errors->first('description') }}</li>
-                    @endif
-                    @if ($errors->has('address'))
-                        <li>{{ $errors->first('address') }}</li>
-                    @endif
-                    <li>マップをクリックして店舗の位置を取得してください</li>
-                </ul>
-            @else
-                <p>
-                    <b>{{ count($errors) }}件のエラーがあります。</b>
-                </p>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+            <p>
+                <b>{{ count($errors) }}件のエラーがあります。</b>
+            </p>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
     <form action="{{ route('shops.store') }}" method="post">
@@ -86,7 +67,7 @@
         });
 
         //ピンを選択後にエラーになった場合にピンが消えないようにする処理
-        @if (!empty(old('latitude')))
+        @if (!empty(old('latitude')) || !empty(old('longitude')))
             clicked = true;
             const marker = L.marker([{{ old('latitude') }}, {{ old('longitude') }}], {
                     draggable: true

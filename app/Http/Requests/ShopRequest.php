@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ShopRule;
 
 class ShopRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class ShopRequest extends FormRequest
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:2000',
             'address' => 'required|string|max:500',
-            'latitude' => 'required|numeric|',
-            'longitude' => 'required|numeric|',
+            'latitude' => [new ShopRule], // 'require'|'numeric'を残すとShopRuleのバリデーションの前にデフォルトのバリデーションでエラーを返してしまうので入れない
+            // longitudeのバリデーションを入れると重複して表示されるので,latitudeのみにShopRuleを適応
         ];
     }
 }
